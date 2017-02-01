@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-hans" class="borderbox">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    		<title></title>
+    		<link rel="stylesheet" href="styles/github-markdown.css">
+    		<link rel="stylesheet" href="styles/highlight/arta.css">
+                    <link rel="stylesheet" href="styles/typo.css">
+    		<style>
+    			body {
+    				box-sizing: border-box;
+    				min-width: 200px;
+    				max-width: 980px;
+    				margin: 0 auto;
+    				padding: 45px;
+    			}
+                                    #toc{
+                                        width: 100%;
+                                        display: none;
+                                        border-bottom: 1px solid #ccc;
+                                    }
+                                    .nav{
+                                        width: 100%;
+                                        height: 34px;
+                                        background-color:#fff;
+                                        padding-bottom: 2px;
+                                    }
+                                    .nav > .nav-button{
+                                            height: 30px;
+                                            width: 30px;
+                                            border:1px solid;
+                                            border-color: #ddd;
+                                            background: #fff;
+                                    }
+    		</style>
+
+</head>
+<body>
+<div class="header">
+<div class="nav"><button id="nav-button" class="nav-button"></button></div>
+</div>
+<div id="content-wrapper">
+<aside id="toc"></aside>
+<article class="markdown-body" id="content">
+<h1>在linux上编译Objective-C代码</h1>
+
+<h2>1.安装基本依赖</h2>
+
+<pre><code class="language-bash">sudo apt-get install build-essential clang libblocksruntime-dev libkqueue-dev libpthread-workqueue-dev gobjc libxml2-dev libjpeg-dev libtiff-dev libpng12-dev libcups2-dev libfreetype6-dev libcairo2-dev libxt-dev libgl1-mesa-dev
+</code></pre>
+
+<h2>2.安装 libobj2 和 GNUstep 库</h2>
+
+<h3>安装libobj2</h3>
+
+<p>首先设置环境变量：
+<code>export CC=clang</code>
+下载libobj2的源代码：
+<a href="http://download.gna.org/gnustep/libobjc2-1.6.tar.gz">libobjc2-1.6.tar.gz</a>
+下载解压之后在解压目录下：</p>
+
+<pre><code class="language-bash">make
+sudo make install
+</code></pre>
+
+<h3>安装GNUstep</h3>
+
+<p>需要下载以下几个文件：</p>
+
+<ol>
+<li>GNUstep Make</li>
+<li>GNUstep Base</li>
+<li>GNUstep GUI</li>
+<li>GNUstep Backend</li>
+</ol>
+
+<h4>Ubuntu</h4>
+
+<p>在ubuntu 官方库里也有这些文件，你可以直接输入以下命令安装：
+<code>sudo apt-get install gnustep-make gnustep-common gnustep</code></p>
+
+<h4>Other</h4>
+
+<p>别的linux发行版，可以通过自己编译源代码安装：
+源代码下载地址：</p>
+
+<p><a href="ftp://ftp.gnustep.org/pub/gnustep/core/gnustep-make-2.6.2.tar.gz">gnustep-make</a></p>
+
+<p><a href="ftp://ftp.gnustep.org/pub/gnustep/core/gnustep-base-1.24.0.tar.gz">gnustep-base</a></p>
+
+<p><a href="ftp://ftp.gnustep.org/pub/gnustep/core/gnustep-gui-0.22.0.tar.gz">gnustep-gui</a></p>
+
+<p><a href="ftp://ftp.gnustep.org/pub/gnustep/core/gnustep-back-0.22.0.tar.gz">gnustep-backend</a></p>
+
+<p>下载解压之后，在解压出来的目录依次执行：</p>
+
+<pre><code class="language-bash">./configure
+make
+sudo make install
+</code></pre>
+
+<blockquote>
+<p>Note: 如果你误操作先安装了GNUstep然后再安装libobj2 请重新配置一下<code>gnustepmake</code>
+<code>sudo dpkg-reconfigure  gnustep-make</code></p>
+</blockquote>
+
+<h2>安装libdispatch-dev</h2>
+
+<h3>ubuntu</h3>
+
+<p>在terminal 中执行</p>
+
+<pre><code class="language-bash">sudo apt-get install libdispatch-dev
+</code></pre>
+
+<h3>other</h3>
+
+<p>应该在自带的包管理工具都有吧，木有测试。。</p>
+
+<h2>Try it out</h2>
+
+<h3>样例代码：</h3>
+
+<ul>
+<li>main.m</li>
+</ul>
+
+<pre><code class="language-c">//
+// main.m
+// Just a little test case for Objective-C 2.0 on Ubuntu
+//
+// Created by Tobias Lensing on 2/22/13.
+// More cool stuff available at blog.tlensing.org.
+//
+#import &lt;Foundation/Foundation.h&gt;
+#import &lt;AppKit/AppKit.h&gt;
+#import &lt;dispatch/dispatch.h&gt;
+int main(int argc, const char * argv[])
+{
+    @autoreleasepool {
+        int multiplier = 7;
+        int (^myBlock)(int) = ^(int num) {
+            return num * multiplier;
+        };
+        NSLog(@&quot;%d&quot;, myBlock(3));
+        dispatch_queue_t queue = dispatch_queue_create(NULL, NULL);
+        dispatch_sync(queue, ^{
+                printf(&quot;Hello, world from a dispatch queue!\n&quot;);
+                });
+        dispatch_release(queue);
+    }
+    @autoreleasepool {
+        [NSApplication sharedApplication];
+        NSRunAlertPanel(@&quot;Test&quot;, @&quot;Wow it works!&quot;, @&quot;OK&quot;, nil, nil);
+    }
+    return 0;
+}
+</code></pre>
+
+<h3>编译之</h3>
+
+<pre><code class="language-bash">clang `gnustep-config --objc-flags` -o main -x objective-c main.m -fconstant-string-class=NSConstantString -fobjc-nonfragile-abi -fblocks -lgnustep-base -lgnustep-gui -ldispatch -I/usr/include/GNUstep -L/usr/lib/GNUstep
+</code></pre>
+
+<blockquote>
+<p>如果你不想有意外的错误，不要尝试修改其中的参数位置（亲测）</p>
+</blockquote>
+
+<h3>运行之</h3>
+
+<p><code>./main</code></p>
+
+<p>输出：</p>
+
+<pre><code>2013-02-24 01:08:20.981 main[6710] 21
+Hello, world from a dispatch queue!
+</code></pre>
+
+<h2>Notice</h2>
+
+<ol>
+<li>有些网站需要科学上网</li>
+<li>不保证所有linux发行版能够work(我的是ubuntu 16.04)</li>
+<li>只能够编译简单的oc代码，后面的cocoa cocoa-touch 就无能为力了</li>
+<li>Good luck</li>
+</ol>
+
+<p>Reference:
+<a href="https://blog.tlensing.org/2013/02/24/objective-c-on-linux-setting-up-gnustep-clang-llvm-objective-c-2-0-blocks-runtime-gcd-on-ubuntu-12-04/">Objective-C on Linux: Setting up GNUstep, clang (llvm), Objective-C 2.0, Blocks Runtime, GCD on Ubuntu 12.04</a></p>
+
+</article>
+</div>
+<div class="footer">
+    <p>auto generate by  <a href="https://github.com/terasum/lettor">lettor</a> </p>
+</div>
+<script src="scripts/jquery-1.7.2.min.js"></script>
+<script src="scripts/highlight.pack.js"></script>
+<script src="scripts/md-toc.js"></script>
+<script type="text/javascript">
+    new Toc('content',{
+        'level':3,
+        'top':200,
+        'class':'toc',
+        'targetId':'toc'
+    });
+hljs.initHighlightingOnLoad();
+$(document).ready(function(){
+    $("#nav-button").click(function(){
+        if($("#toc").is(":hidden")){
+            $("#toc").slideDown();
+        }else{
+            $("#toc").slideUp();
+        }
+    });
+});
+</script>
+</body>
+</html>
