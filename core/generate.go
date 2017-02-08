@@ -7,7 +7,7 @@ import (
 	"github.com/russross/blackfriday"
 )
 
-func generateMarkdown(sourcePath string) ([]byte, error) {
+func GenerateMarkdown(sourcePath string) ([]byte, error) {
 	input, err := ioutil.ReadFile(sourcePath)
 	if err != nil {
 		fmt.Printf("occur a err %v \n", err)

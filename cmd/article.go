@@ -10,6 +10,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/terasum/lettor/structs"
 	"github.com/terasum/lettor/utils"
+	"github.com/terasum/lettor/core"
 )
 
 func init() {
@@ -44,7 +45,7 @@ var genArticleCmd = &cobra.Command{
 }
 
 func genArticle(templatePath, sourcePath, targetPath string) error {
-	output, err := core.generateMArkdown(sourcePath)
+	output, err := core.GenerateMarkdown(sourcePath)
 	if err != nil {
 		return err
 	}
@@ -69,7 +70,7 @@ func genArticle(templatePath, sourcePath, targetPath string) error {
 
 	err = ioutil.WriteFile(targetPath, b.Bytes(), 0655)
 	check(err)
-
+	return nil
 }
 
 func check(e error) {
