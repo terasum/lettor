@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="zh-hans" class="borderbox">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    		<title></title>
+    		<link rel="stylesheet" href="styles/github-markdown.css">
+    		<link rel="stylesheet" href="styles/highlight/arta.css">
+                    <link rel="stylesheet" href="styles/typo.css">
+    		<style>
+    			body {
+    				box-sizing: border-box;
+    				min-width: 200px;
+    				max-width: 980px;
+    				margin: 0 auto;
+    				padding: 45px;
+    			}
+                                    #toc{
+                                        width: 100%;
+                                        display: none;
+                                        border-bottom: 1px solid #ccc;
+                                    }
+                                    .nav{
+                                        width: 100%;
+                                        height: 34px;
+                                        background-color:#fff;
+                                        padding-bottom: 2px;
+                                    }
+                                    .nav > .nav-button{
+                                            height: 30px;
+                                            width: 30px;
+                                            border:1px solid;
+                                            border-color: #ddd;
+                                            background: #fff;
+                                    }
+    		</style>
+
+</head>
+<body>
+<div class="header">
+<div class="nav"><button id="nav-button" class="nav-button"></button></div>
+</div>
+<div id="content-wrapper">
+<aside id="toc"></aside>
+<article class="markdown-body" id="content">
+<h1>Documentation</h1>
+
+<h2><code>public HyperchainAPI(String providerURL, HttpProvider httpProvider,boolean isOutput,String ecertPath,String ecertPrivPath,String privateKeyPath,String publicKeyPath) throws Exception</code></h2>
+
+<p>指定网络请求的provider的来源</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>providerURL</code> — 请求的地址,如果是本地文本请求,请直接指向JSON文件所在文件夹,如果是网络请求,请按照 <a href="http://localhost:8081">http://localhost:8081</a> 格式填写</li>
+<li><code>httpProvider</code> — 请求类型,包括INTERNET 和 PLANTEXT</li>
+</ul></li>
+</ul>
+
+<h2><code>public SingleValueReturn getTransactions(String start, String end, int id)</code></h2>
+
+<p>2.1 取得区块中的所有交易信息 tx_getTransactions</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>start</code> — 查询开始区块号</li>
+<li><code>end</code> — 查询结束区块号</li>
+<li><code>id</code> — 查询批次ss</li>
+</ul></li>
+<li><strong>Returns:</strong> 标准格式返回值</li>
+</ul>
+
+<h2><code>public SingleValueReturn getDiscardTransactions(int id)</code></h2>
+
+<p>2.2 查询所有非法交易</p>
+
+<ul>
+<li><strong>Parameters:</strong> <code>id</code> — 查询批次</li>
+<li><strong>Returns:</strong> 返回交易json列表</li>
+</ul>
+
+<h2><code>public SingleValueReturn getTransactionByHash(String txHash, int id)</code></h2>
+
+<p>2.3 查询交易 by TxHash</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>txHash</code> — -</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 单值json string返回值</li>
+</ul>
+
+<h2><code>public SingleValueReturn getTransactionByBlockHashAndIndex(String blkHash, int index, int id)</code></h2>
+
+<p>2.4 查询交易 by block hash and TxIndex</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>blkHash</code> — 块hash</li>
+<li><code>index</code> — 交易序号</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回交易信息数组</li>
+</ul>
+
+<h2><code>public SingleValueReturn getTransactionByBlockNumberAndIndex(int blkNumber, int index, int id)</code></h2>
+
+<p>2.5 查询交易 by block number and TxIndex</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>blkNumber</code> — 块Num</li>
+<li><code>index</code> — 交易index</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 单值字符串返回</li>
+</ul>
+
+<h2><code>public SingleValueReturn sendTransaction(String from, String to, long value, String accountJson, String passwd, int id) throws Exception</code></h2>
+
+<p>2.6 发送交易(带签名)</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 发送账户地址</li>
+<li><code>to</code> — 接受账户地址</li>
+<li><code>value</code> — 发送的交易值</li>
+<li><code>accountJson</code> — 账户存储json字符串</li>
+<li><code>passwd</code> — 账户解锁密码</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 自定义exception 一般是json解析错</li>
+</ul>
+
+<h2><code>public SingleValueReturn sendTransaction(String from, String to, long value, String accountJson, String passwd,boolean simulate, int id) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 发送账户地址</li>
+<li><code>to</code> — 接受账户地址</li>
+<li><code>value</code> — 发送的交易值</li>
+<li><code>accountJson</code> — 账户存储json字符串</li>
+<li><code>passwd</code> — 账户解锁密码</li>
+<li><code>simulate</code> — 模拟flag</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 标准单值返回</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — -</li>
+</ul>
+
+<h2><code>public HmReturn sendTransaction(String contractAddr,String from , String to, long transferamount, long allamount, BigInteger illegalamount, PublicKey reciverpublicKey, String accountJson, String passwd, int id) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 发起交易人地址</li>
+<li><code>to</code> — 收款人地址</li>
+<li><code>transferamount</code> — 要转的金额</li>
+<li><code>allamount</code> — 所有的金额</li>
+<li><code>illegalamount</code> — 非法同态值</li>
+<li><code>reciverpublicKey</code> — 收款人公钥</li>
+<li><code>accountJson</code> — 发起人私钥文件的内容</li>
+<li><code>passwd</code> — 发起人密码</li>
+<li><code>id</code> — 交易id</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回</li>
+</ul>
+
+<h2><code>public HmVerifyReturn ReciverVerify(String contractAddr,String from,String abi,String accountJson,String passwd,int id) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>contractAddr</code> — 专门针对同态转账的合约地址</li>
+<li><code>from</code> — 调用者</li>
+<li><code>abi</code> — 合约的abi，因为需要使用到abi进行解析合约方法的返回值</li>
+<li><code>accountJson</code> — 调用者私钥文件内容</li>
+<li><code>passwd</code> — 调用者密码</li>
+<li><code>id</code> — 调用号</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回验证结果，包括里面调用合约的结果，以及平台验证结果</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> —</li>
+</ul>
+
+<h2><code>private SingleValueReturn sendSignedTransaction(SignedTxParams signedTxParams, int id) throws Exception</code></h2>
+
+<p>发送已经签名的交易</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>signedTxParams</code> — 已经签名的交易</li>
+<li><code>id</code> — 请求批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 标准格式返回值</li>
+</ul>
+
+<h2><code>public SingleValueReturn getTxAvgTimeByBlockNumber(int from,int to, int id)</code></h2>
+
+<p>2.8 查询指定区块中交易平均处理时间</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 启始区块</li>
+<li><code>to</code> — 结束区块</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回平均处理时间,16进制</li>
+</ul>
+
+<h2><code>public ReceiptReturn getTransactionReceipt(String TxHash, int id)</code></h2>
+
+<p>2.9 查询指定交易中的收据信息</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>TxHash</code> — 交易hash</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 标准格式返回值</li>
+</ul>
+
+<h2><code>public SingleValueReturn getBlockTransactionCountByHash(String blkHash ,int id)</code></h2>
+
+<p>2.10 查询区块交易数量</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>blkHash</code> — 区块hash</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 数目 16进制表示</li>
+</ul>
+
+<h2><code>private String getSignHash(TxParams txParams, int id)</code></h2>
+
+<p>2.11获取交易签名哈希 取得交易的待签名 hash</p>
+
+<ul>
+<li><strong>Returns:</strong> string 签名hash</li>
+</ul>
+
+<h2><code>public SingleValueReturn getTransactionsCount(int id)</code></h2>
+
+<p>查询链上所有交易量</p>
+
+<ul>
+<li><strong>Parameters:</strong> <code>id</code> — 批次</li>
+<li><strong>Returns:</strong> 返回相应的json数据</li>
+</ul>
+
+<h2><code>public SingleValueReturn getTransactionsByTime(BigInteger startTime,BigInteger endTime, int id)</code></h2>
+
+<p>2.11 根据时间查询Transaction Hyperchain branch agriculture_addCheckingInterface_mxm 2016-12-08 tx_getTransactionsByTime</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>startTime</code> — 开始时间戳 ns</li>
+<li><code>endTime</code> — 结束时间戳 ns</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回txs 的json</li>
+</ul>
+
+<h2><code>public CompileReturn compileContract(String sourceCode, int id)</code></h2>
+
+<p>3.1 编译源代码</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>sourceCode</code> — 源代码</li>
+<li><code>id</code> — 请求批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 标准格式返回值</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, String accountJSON, String passwd, int id) throws Exception</code></h2>
+
+<p>3.2 部署合约</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 部署账户地址</li>
+<li><code>bin</code> — 需要部署的只能合约bin</li>
+<li><code>accountJSON</code> — 加密之后的账户秘钥信息</li>
+<li><code>passwd</code> — 解密密码</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 部署错误</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, ECPriv ecPriv, int id) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 调用地址</li>
+<li><code>bin</code> — 部署合约bin</li>
+<li><code>ecPriv</code> — 明文私钥</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回部署 Txhash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — -</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, String accountJSON, String passwd,boolean simulate, int id) throws Exception</code></h2>
+
+<p>3.2 部署合约 模拟</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 部署账户地址</li>
+<li><code>bin</code> — 需要部署的只能合约bin</li>
+<li><code>accountJSON</code> — 加密之后的账户秘钥信息</li>
+<li><code>passwd</code> — 解密密码</li>
+<li><code>simulate</code> — 模拟flag</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 异常</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, String accountJSON, String passwd, int id, String constructMethodName, FuncParam... functionParams) throws Exception</code></h2>
+
+<p>3.2 部署合约(构造函数,funcParam，弃用)</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 部署账户地址</li>
+<li><code>bin</code> — 需要部署的只能合约bin</li>
+<li><code>accountJSON</code> — 加密之后的账户秘钥信息</li>
+<li><code>passwd</code> — 解密密码</li>
+<li><code>id</code> — 查询批次</li>
+<li><code>constructMethodName</code> — 构造函数方法名</li>
+<li><code>functionParams</code> — 构造函数参数</li>
+</ul></li>
+<li><strong>Returns:</strong> 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 部署错误</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, String accountJSON, String passwd, int id, String constructMethodName, FuncParamReal... functionParams) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 部署账户地址</li>
+<li><code>bin</code> — 需要部署的只能合约bin</li>
+<li><code>accountJSON</code> — 加密之后的账户秘钥信息</li>
+<li><code>passwd</code> — 解密密码</li>
+<li><code>id</code> — 查询批次</li>
+<li><code>constructMethodName</code> — 构造函数方法名</li>
+<li><code>functionParams</code> — 构造函数参数</li>
+</ul></li>
+<li><strong>Returns:</strong> 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 部署错误</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, ECPriv ecPriv, int id, String constructMethodName, FuncParam... functionParams) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 调用地址</li>
+<li><code>bin</code> — 合约bin</li>
+<li><code>ecPriv</code> — 明文私钥</li>
+<li><code>id</code> — 批次</li>
+<li><code>constructMethodName</code> — 构造方法名</li>
+<li><code>functionParams</code> — 构造方法参数</li>
+</ul></li>
+<li><strong>Returns:</strong> 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — -</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, ECPriv ecPriv, int id, String constructMethodName, FuncParamReal... functionParams) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 部署账户地址</li>
+<li><code>bin</code> — 需要部署的只能合约bin</li>
+<li><code>ecPriv</code> — 明文私钥文件</li>
+<li><code>id</code> — 查询批次</li>
+<li><code>constructMethodName</code> — 构造方法名</li>
+<li><code>functionParams</code> — 构造方法参数，FuncParamReal类型</li>
+</ul></li>
+<li><strong>Returns:</strong> 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> —</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, String accountJSON, String passwd,boolean simulate,int id, String constructMethodName, FuncParam... functionParams) throws Exception</code></h2>
+
+<p>3.2 部署合约(构造函数) 模拟</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 部署账户地址</li>
+<li><code>bin</code> — 需要部署的只能合约bin</li>
+<li><code>accountJSON</code> — 加密之后的账户秘钥信息</li>
+<li><code>passwd</code> — 解密密码</li>
+<li><code>simulate</code> — 模拟</li>
+<li><code>id</code> — 查询批次</li>
+<li><code>constructMethodName</code> — 构造函数方法名</li>
+<li><code>functionParams</code> — 构造函数参数</li>
+</ul></li>
+<li><strong>Returns:</strong> 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 部署错误</li>
+</ul>
+
+<h2><code>public SingleValueReturn deployContract(String from, String bin, ECPriv ecPriv,boolean simulate,int id, String constructMethodName, FuncParam... functionParams) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 部署账户地址</li>
+<li><code>bin</code> — 需要部署的只能合约bin</li>
+<li><code>ecPriv</code> — 明文私钥</li>
+<li><code>simulate</code> — 模拟</li>
+<li><code>id</code> — 查询批次</li>
+<li><code>constructMethodName</code> — 构造函数方法名</li>
+<li><code>functionParams</code> — 构造函数参数</li>
+</ul></li>
+<li><strong>Returns:</strong> 部署交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — -</li>
+</ul>
+
+<h2><code>private SingleValueReturn getSignHashForContract(DeployParams deployParams, int id)</code></h2>
+
+<p>取得部署合约的待签名 hash</p>
+
+<ul>
+<li><strong>Returns:</strong> string 签名hash</li>
+</ul>
+
+<h2><code>public SingleValueReturn invokeContract(String from, String contractAddr, String input, String accountJson, String passwd, int id) throws Exception</code></h2>
+
+<p>3.3 调用合约</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 合约from</li>
+<li><code>contractAddr</code> — 合约地址</li>
+<li><code>input</code> — 调用编码</li>
+<li><code>accountJson</code> — 账户加密json</li>
+<li><code>passwd</code> — 账目密码</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回单值结果</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 抛出签名错误</li>
+</ul>
+
+<h2><code>public SingleValueReturn invokeContract(String from, String contractAddr, String input, ECPriv ecPriv, int id) throws Exception</code></h2>
+
+<p>3.3 调用合约 明文私钥</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 合约from</li>
+<li><code>contractAddr</code> — 合约地址</li>
+<li><code>input</code> — 调用编码</li>
+<li><code>ecPriv</code> — 明文私钥</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回单值结果</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 抛出签名错误</li>
+</ul>
+
+<h2><code>public String invokeContract(String from,String contractAddr,String abi,String methodName,String input,String accountJson,String passwd,int id) throws Exception</code></h2>
+
+<p>invoke the Smart contract and decode the result automatically. return string format is a predefined json string</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — the invoke user address</li>
+<li><code>contractAddr</code> — the address which the smart contract deployed before</li>
+<li><code>abi</code> — Smart contract abi string</li>
+<li><code>methodName</code> — the method name which you need to invoke</li>
+<li><code>input</code> — the encoded method params string</li>
+<li><code>accountJson</code> — the encrypted account Json string</li>
+<li><code>passwd</code> — the password which need to decrypt the encrypted json string</li>
+<li><code>id</code> — the batch id you just query</li>
+</ul></li>
+<li><strong>Returns:</strong> return a formatted json string</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — -</li>
+</ul>
+
+<h2><code>public String invokeContract(String from,String contractAddr,String abi,String methodName,String input,ECPriv ecPriv,int id) throws Exception</code></h2>
+
+<p>便捷调用合约方法，将会自动返回解码之后的返回值</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 调用账户地址</li>
+<li><code>contractAddr</code> — 合约部署地址</li>
+<li><code>abi</code> — 对应合约abi</li>
+<li><code>methodName</code> — 方法名</li>
+<li><code>input</code> — 调用参数input</li>
+<li><code>ecPriv</code> — 明文私钥</li>
+<li><code>id</code> — 调用批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回明文解码返回值json</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — -</li>
+</ul>
+
+<h2><code>public SingleValueReturn invokeContract(String from, String contractAddr, String input, String accountJson, String passwd,boolean simulate, int id) throws Exception</code></h2>
+
+<p>3.3 调用合约 模拟</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 合约from</li>
+<li><code>contractAddr</code> — 合约地址</li>
+<li><code>input</code> — 调用编码</li>
+<li><code>accountJson</code> — 账户加密json</li>
+<li><code>passwd</code> — 账目密码</li>
+<li><code>simulate</code> — 模拟flag</li>
+<li><code>id</code> — 查询批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回单值结果</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — 抛出签名错误</li>
+</ul>
+
+<h2><code>public SingleValueReturn invokeContract(String from, String contractAddr, String input, ECPriv ecPriv,boolean simulate, int id) throws Exception</code></h2>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>from</code> — 调用账户地址</li>
+<li><code>contractAddr</code> — 合约地址</li>
+<li><code>input</code> — 调用输入</li>
+<li><code>ecPriv</code> — 明文私钥</li>
+<li><code>simulate</code> — 是否模拟请求</li>
+<li><code>id</code> — 调用批次</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回SingleValueReturn 交易hash</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> — -</li>
+</ul>
+
+<h2><code>public String newAccount(String passphrase) throws GeneralSecurityException</code></h2>
+
+<p>生成账户keystore 文件, json字符串形式返回</p>
+
+<ul>
+<li><strong>Parameters:</strong> <code>passphrase</code> — 设置账户密码</li>
+<li><strong>Returns:</strong> json格式keystore文件</li>
+<li><strong>Exceptions:</strong> <code>GeneralSecurityException</code> — 加密算法异常</li>
+</ul>
+
+<h2><code>public AccountContent newHmAccount(String passphrase) throws GeneralSecurityException</code></h2>
+
+<p>功能：当使用同态加密的时候，需要用这种方法产生公私钥，得到encode之后的pri和pub进行保存</p>
+
+<ul>
+<li><strong>Parameters:</strong> <code>passphrase</code> — 用户密码</li>
+<li><strong>Returns:</strong> 返回一个账户内容结构体</li>
+<li><strong>Exceptions:</strong> <code>GeneralSecurityException</code> —</li>
+</ul>
+
+<h2><code>public ECPriv newAccount() throws GeneralSecurityException</code></h2>
+
+<p>取得账户明文私钥以及地址</p>
+
+<ul>
+<li><strong>Returns:</strong> ECPriv 包括用户私钥以及账户地址</li>
+<li><strong>Exceptions:</strong> <code>GeneralSecurityException</code> — -</li>
+</ul>
+
+<h2><code>public String encryptAccount(ECPriv privateKey, String password) throws GeneralSecurityException</code></h2>
+
+<p>加密明文私钥</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>privateKey</code> — 账户明文私钥及地址</li>
+<li><code>password</code> — 设置账户密码</li>
+</ul></li>
+<li><strong>Returns:</strong> json格式加密私钥文件</li>
+<li><strong>Exceptions:</strong> <code>GeneralSecurityException</code> — 加密算法异常</li>
+</ul>
+
+<h2><code>public ECPriv decryptAccount(String encrypetedAccountJson, String pwd) throws Exception</code></h2>
+
+<p>解密加密私钥文件</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>encrypetedAccountJson</code> — 加密私钥文件</li>
+<li><code>pwd</code> — 用户密码</li>
+</ul></li>
+<li><strong>Returns:</strong> 明文私钥文件</li>
+<li><strong>Exceptions:</strong> <code>Exception</code> —</li>
+</ul>
+
+<h2><code>public BlockReturn getBlockByHash(String blockHash, int id)</code></h2>
+
+<p>查询区块信息 by blk Hash block_getBlocksByHash</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>blockHash</code> — blk hash</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 区块信息</li>
+</ul>
+
+<h2><code>public BlockNumReturn getBlocksByTime(BigInteger startTime,BigInteger endTime,int id)</code></h2>
+
+<p>根据区块生成时间查询区块</p>
+
+<ul>
+<li><strong>Parameters:</strong>
+
+<ul>
+<li><code>startTime</code> — 开始查询时间</li>
+<li><code>endTime</code> — 结束查询时间</li>
+<li><code>id</code> — -</li>
+</ul></li>
+<li><strong>Returns:</strong> 返回BlockNumReturn</li>
+</ul>
+
+<h2><code>public ArrayList&lt;NodeInfoReturn&gt; getNodes(int id)</code></h2>
+
+<p>取得所有的节点信息</p>
+
+<ul>
+<li><strong>Parameters:</strong> <code>id</code> — -</li>
+<li><strong>Returns:</strong> 返回节点信息列表</li>
+</ul>
+
+</article>
+</div>
+<div class="footer">
+    <p>automatic generate by  <a href="https://github.com/terasum/lettor">lettor</a> </p>
+</div>
+<script src="scripts/jquery-1.7.2.min.js"></script>
+<script src="scripts/highlight.pack.js"></script>
+<script src="scripts/md-toc.js"></script>
+<script type="text/javascript">
+    new Toc('content',{
+        'level':3,
+        'top':200,
+        'class':'toc',
+        'targetId':'toc'
+    });
+hljs.initHighlightingOnLoad();
+$(document).ready(function(){
+    $("#nav-button").click(function(){
+        if($("#toc").is(":hidden")){
+            $("#toc").slideDown();
+        }else{
+            $("#toc").slideUp();
+        }
+    });
+});
+</script>
+</body>
+</html>

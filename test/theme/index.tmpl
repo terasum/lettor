@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-hans" class="borderbox">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ .Title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <title></title>
+    <link rel="stylesheet" href="styles/github-markdown.css">
+    <link rel="stylesheet" href="styles/highlight/arta.css">
+    <link rel="stylesheet" href="styles/typo.css">
+    <style>
+        body {
+            box-sizing: border-box;
+            min-width: 200px;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 45px;
+        }
+        #toc{
+            width: 100%;
+            display: none;
+            border-bottom: 1px solid #ccc;
+        }
+        .nav{
+            width: 100%;
+            height: 34px;
+            background-color:#fff;
+            padding-bottom: 2px;
+        }
+        .nav > .nav-button{
+                height: 30px;
+                width: 30px;
+                border:1px solid;
+                border-color: #ddd;
+                background: #fff;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+<div class="nav"><button id="nav-button" class="nav-button"></button></div>
+</div>
+<div id="content-wrapper">
+{{with .Friends}}
+{{range .}}
+<article class="markdown-body" id="content">
+my friend name is {{.Content}}
+</article>
+{{end}}
+{{end}}
+</div>
+<div class="footer">
+    <p>automatic generate by  <a href="https://github.com/terasum/lettor">lettor</a> </p>
+</div>
+<script src="scripts/jquery-1.7.2.min.js"></script>
+<script src="scripts/highlight.pack.js"></script>
+<script src="scripts/md-toc.js"></script>
+<script type="text/javascript">
+hljs.initHighlightingOnLoad();
+</script>
+</body>
+</html>
